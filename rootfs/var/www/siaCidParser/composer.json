@@ -13,6 +13,7 @@
         "hoa/socket": "~1.16",
         "notrix/crc": "@dev",
         "notrix/phpmqtt": "dev-master",
+        "psr/log": "^1",
         "symfony/config": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
