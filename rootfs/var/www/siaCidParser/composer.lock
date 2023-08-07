@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f2d180af79afaa563fe958b6f351b31",
+    "content-hash": "81a5212df8c028e45897868e6fcdd6f3",
     "packages": [
         {
             "name": "hoa/consistency",
@@ -475,12 +475,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/notrix/phpMQTT.git",
-                "reference": "c0d70a0a1d40155498e9cd2c88eb26b058d6b65d"
+                "reference": "185e6245588242169aaa3127da56df9da0ffa204"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notrix/phpMQTT/zipball/c0d70a0a1d40155498e9cd2c88eb26b058d6b65d",
-                "reference": "c0d70a0a1d40155498e9cd2c88eb26b058d6b65d",
+                "url": "https://api.github.com/repos/notrix/phpMQTT/zipball/185e6245588242169aaa3127da56df9da0ffa204",
+                "reference": "185e6245588242169aaa3127da56df9da0ffa204",
                 "shasum": ""
             },
             "default-branch": true,
@@ -492,7 +492,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "MIT"
             ],
             "authors": [
                 {
@@ -504,7 +504,7 @@
             "support": {
                 "source": "https://github.com/notrix/phpMQTT/tree/master"
             },
-            "time": "2017-07-26T19:24:21+00:00"
+            "time": "2023-08-07T20:01:41+00:00"
         },
         {
             "name": "psr/container",
