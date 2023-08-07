@@ -475,12 +475,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/notrix/phpMQTT.git",
-                "reference": "185e6245588242169aaa3127da56df9da0ffa204"
+                "reference": "4940c80969ef574355d2e7201e0283c4e3867168"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/notrix/phpMQTT/zipball/185e6245588242169aaa3127da56df9da0ffa204",
-                "reference": "185e6245588242169aaa3127da56df9da0ffa204",
+                "url": "https://api.github.com/repos/notrix/phpMQTT/zipball/4940c80969ef574355d2e7201e0283c4e3867168",
+                "reference": "4940c80969ef574355d2e7201e0283c4e3867168",
                 "shasum": ""
             },
             "default-branch": true,
@@ -504,7 +504,7 @@
             "support": {
                 "source": "https://github.com/notrix/phpMQTT/tree/master"
             },
-            "time": "2023-08-07T20:01:41+00:00"
+            "time": "2023-08-07T20:12:49+00:00"
         },
         {
             "name": "psr/container",
