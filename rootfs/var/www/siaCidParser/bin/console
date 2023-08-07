@@ -20,11 +20,15 @@ if (file_exists($file)) {
     $container = new ProjectServiceContainer();
 } else {
     $container = new ContainerBuilder();
+
     $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../app'));
     $loader->load('services.yml');
     $loader->load('mqtt.yml');
 
     $application = $container->getDefinition('application');
+    $application->setPublic(true);
+
+    $container->getDefinition('console.output')->setPublic(true);
 
     /** @var \Symfony\Component\DependencyInjection\Definition $definition */
     foreach ($container->findTaggedServiceIds('notrix.command') as $id => $attributes) {
@@ -39,17 +43,17 @@ if (file_exists($file)) {
         $dispatcher = $container->getDefinition('event_dispatcher');
         foreach ($attributes as $params) {
             $dispatcher->addMethodCall(
-                'addListenerService',
+                'addListener',
                 [
                     $params['event'],
-                    [$id, $params['method']],
+                    [new Reference($id), $params['method']],
                     !empty($params['priority']) ? $params['priority'] : 0
                 ]
             );
         }
     }
 
-    $container->compile();
+    $container->compile(true);
 
     $dumper = new PhpDumper($container);
     file_put_contents($file, $dumper->dump());

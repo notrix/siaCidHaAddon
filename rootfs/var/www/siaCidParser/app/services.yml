@@ -4,7 +4,7 @@ parameters:
     notrix.sia_cid.parser.class: Notrix\SiaCid\Parser\SiaCidParser
     notrix.sia_cid.response_generator.class: Notrix\SiaCid\Generator\SiaResponseGenerator
     notrix.sia_cid.server.command.class: Notrix\SiaCid\Command\SiaServerCommand
-    event_dispatcher.class: Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher
+    event_dispatcher.class: Symfony\Component\EventDispatcher\EventDispatcher
     application.class: Symfony\Component\Console\Application
     logger.class: Symfony\Component\Console\Logger\ConsoleLogger
     console.output.class: Symfony\Component\Console\Output\ConsoleOutput

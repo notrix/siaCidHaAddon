@@ -13,12 +13,11 @@
         "hoa/socket": "~1.16",
         "notrix/crc": "@dev",
         "notrix/phpmqtt": "dev-master",
-        "psr/log": "^1",
-        "symfony/config": "~2.7|~3.0",
-        "symfony/console": "~2.7|~3.0",
-        "symfony/dependency-injection": "~2.7|~3.0",
-        "symfony/event-dispatcher": "~2.7|~3.0",
-        "symfony/yaml": "~2.7|~3.0"
+        "symfony/config": "^5.4",
+        "symfony/console": "^5.4",
+        "symfony/dependency-injection": "^5.4",
+        "symfony/event-dispatcher": "^5.4",
+        "symfony/yaml": "^5.4"
     },
     "license": "MIT",
     "authors": [
