@@ -2,7 +2,7 @@
 
 namespace Notrix\SiaCid;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class CidEvent
