@@ -1,0 +1,56 @@
+parameters:
+    notrix.crc.class: mermshaus\CRC\CRC16
+    notrix.sia_cid.validator.class: Notrix\SiaCid\Validator\SiaCidValidator
+    notrix.sia_cid.parser.class: Notrix\SiaCid\Parser\SiaCidParser
+    notrix.sia_cid.response_generator.class: Notrix\SiaCid\Generator\SiaResponseGenerator
+    notrix.sia_cid.server.command.class: Notrix\SiaCid\Command\SiaServerCommand
+    event_dispatcher.class: Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher
+    application.class: Symfony\Component\Console\Application
+    logger.class: Symfony\Component\Console\Logger\ConsoleLogger
+    console.output.class: Symfony\Component\Console\Output\ConsoleOutput
+
+services:
+    notrix.crc:
+        class: '%notrix.crc.class%'
+
+    notrix.sia_cid.validator:
+        class: '%notrix.sia_cid.validator.class%'
+        arguments:
+            - '@notrix.crc'
+
+    notrix.sia_cid.parser:
+        class: '%notrix.sia_cid.parser.class%'
+        arguments:
+            - '@notrix.sia_cid.validator'
+
+    notrix.sia_cid.response_generator:
+        class: '%notrix.sia_cid.response_generator.class%'
+        arguments:
+            - '@notrix.sia_cid.validator'
+            - '@notrix.crc'
+
+    application:
+        class: '%application.class%'
+
+    event_dispatcher:
+        class: '%event_dispatcher.class%'
+        arguments:
+            - '@service_container'
+
+    notrix.sia_cid.server.command:
+        class: '%notrix.sia_cid.server.command.class%'
+        public: false
+        arguments:
+            - '@notrix.sia_cid.parser'
+            - '@notrix.sia_cid.response_generator'
+            - '@event_dispatcher'
+        tags:
+            - { name: 'notrix.command' }
+
+    console.output:
+        class: '%console.output.class%'
+
+    logger:
+        class: '%logger.class%'
+        arguments:
+            - '@console.output'

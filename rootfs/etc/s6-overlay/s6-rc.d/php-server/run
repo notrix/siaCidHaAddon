@@ -1,0 +1,23 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Community Add-on: SiaCidParser
+# Runs the PHP-FPM daemon
+# ==============================================================================
+bashio::log.info "Starting PHP command..."
+
+export MQTT_HOST
+export MQTT_PORT
+export MQTT_USERNAME
+export MQTT_PASSWORD
+
+MQTT_HOST=$(bashio::services mqtt "host")
+MQTT_PORT=$(bashio::services mqtt "port")
+MQTT_USERNAME=$(bashio::services mqtt "username")
+MQTT_PASSWORD=$(bashio::services mqtt "password")
+
+# if bashio::config.has_value 'upload_limit' ; then
+#     UPLOAD_LIMIT=$(bashio::config 'upload_limit')M
+# fi
+
+exec php /var/www/siaCidParser/bin/console notrix:sia:server -vvv

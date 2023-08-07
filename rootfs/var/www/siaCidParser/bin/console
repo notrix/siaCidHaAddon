@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+
+ini_set('memory_limit','64M');
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+
+$file = __DIR__ .'/../var/cache/container.php';
+
+if (file_exists($file)) {
+    require_once $file;
+    $container = new ProjectServiceContainer();
+} else {
+    $container = new ContainerBuilder();
+    $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../app'));
+    $loader->load('services.yml');
+    $loader->load('mqtt.yml');
+
+    $application = $container->getDefinition('application');
+
+    /** @var \Symfony\Component\DependencyInjection\Definition $definition */
+    foreach ($container->findTaggedServiceIds('notrix.command') as $id => $attributes) {
+        $definition = $container->getDefinition($id);
+        if ($definition->getClass() && is_a($definition->getClass(), ContainerAwareInterface::class)) {
+            $definition->addMethodCall('setContainer', [$container]);
+        }
+        $application->addMethodCall('add', [new Reference($id)]);
+    }
+
+    foreach ($container->findTaggedServiceIds('notrix.listener') as $id => $attributes) {
+        $dispatcher = $container->getDefinition('event_dispatcher');
+        foreach ($attributes as $params) {
+            $dispatcher->addMethodCall(
+                'addListenerService',
+                [
+                    $params['event'],
+                    [$id, $params['method']],
+                    !empty($params['priority']) ? $params['priority'] : 0
+                ]
+            );
+        }
+    }
+
+    $container->compile();
+
+    $dumper = new PhpDumper($container);
+    file_put_contents($file, $dumper->dump());
+}
+
+$container->get('application')->run(null, $container->get('console.output'));

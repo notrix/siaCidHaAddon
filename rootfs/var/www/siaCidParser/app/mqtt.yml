@@ -1,0 +1,58 @@
+parameters:
+    mqtt.client.class: PhpMQTT\PhpMQTT
+    notrix.sia_cid.mqtt.enabled: true
+    notrix.sia_cid.mqtt.address: '%env(MQTT_HOST)%'
+    notrix.sia_cid.mqtt.port: '%env(int:MQTT_PORT)%'
+    notrix.sia_cid.mqtt.username: '%env(MQTT_USERNAME)%'
+    notrix.sia_cid.mqtt.password: '%env(MQTT_PASSWORD)%'
+    notrix.sia_cid.mqtt.client_id: NoTriX-SiaCid-HA-addon
+    notrix.sia_cid.mqtt.topic: notrix/cid/event
+    notrix.sia_cid.mqtt.topic_prefix: home/eldes
+    notrix.sia_cid.mqtt.topic_log: home/eldes/log
+    notrix.sia_cid.mqtt.event_filter: [401, 441]
+    notrix.sia_cid.mqtt.event_map:
+        401:
+            - alarm
+            -
+                3: armed_away
+                1: disarmed
+        441:
+            - alarm
+            -
+                3: armed_home
+                1: disarmed
+    notrix.sia_cid.mqtt.event_listener.class: Notrix\SiaCid\EventListener\MqttPublishCidEventListener
+    notrix.sia_cid.mqtt.event_transform_listener.class: Notrix\SiaCid\EventListener\MqttPublishCidTransformedEventListener
+
+services:
+    mqtt.client:
+        class: '%mqtt.client.class%'
+        arguments:
+            - '%notrix.sia_cid.mqtt.address%'
+            - '%notrix.sia_cid.mqtt.port%'
+            - '%notrix.sia_cid.mqtt.client_id%'
+
+    notrix.sia_cid.mqtt.event_listener:
+        class: '%notrix.sia_cid.mqtt.event_listener.class%'
+        arguments:
+            - '@mqtt.client'
+            - '%notrix.sia_cid.mqtt.username%'
+            - '%notrix.sia_cid.mqtt.password%'
+            - '%notrix.sia_cid.mqtt.topic%'
+            - '%notrix.sia_cid.mqtt.event_filter%'
+            - '@logger'
+        tags:
+            - { name: notrix.listener, event: notrix.cid.event_received, method: publish }
+
+    notrix.sia_cid.mqtt.event_transform_listener:
+        class: '%notrix.sia_cid.mqtt.event_transform_listener.class%'
+        arguments:
+            - '@mqtt.client'
+            - '%notrix.sia_cid.mqtt.username%'
+            - '%notrix.sia_cid.mqtt.password%'
+            - '%notrix.sia_cid.mqtt.topic_prefix%'
+            - '%notrix.sia_cid.mqtt.topic_log%'
+            - '%notrix.sia_cid.mqtt.event_map%'
+            - '@logger'
+        tags:
+            - { name: notrix.listener, event: notrix.cid.event_received, method: publish }
