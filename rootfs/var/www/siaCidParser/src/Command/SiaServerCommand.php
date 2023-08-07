@@ -97,8 +97,8 @@ $cid->setAccount(1);
 $cid->setStatus(3);
 $cid->setTime(new \DateTime());
 $this->eventDispatcher->dispatch(
-    CidEvent::EVENT_RECEIVED,
-    new CidEvent($cid)
+    new CidEvent($cid),
+    CidEvent::EVENT_RECEIVED
 );
 // EOF DEBUG:
 
@@ -123,8 +123,8 @@ $this->eventDispatcher->dispatch(
                     $cid = $this->parser->parse($rawData);
 
                     $this->eventDispatcher->dispatch(
-                        CidEvent::EVENT_RECEIVED,
-                        new CidEvent($cid)
+                        new CidEvent($cid),
+                        CidEvent::EVENT_RECEIVED
                     );
                     $style->success('Data handled successfully');
                 } catch (InvalidFormatException $exception) {
